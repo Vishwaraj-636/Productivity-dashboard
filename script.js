@@ -1,3 +1,4 @@
+//open cards
 function openFeatures(){
     var allElem = document.querySelectorAll('.elem')
     var allFullElem = document.querySelectorAll('.fullElem')
@@ -15,17 +16,62 @@ function openFeatures(){
         })
     })
 };
-
-//openFeatures();
-
-let form = document.querySelector('.addTask form')
-let taskInput =document.querySelector('.addTask form input')
-let taskDetailsInput = document.querySelector('.addTask form textarea')
-let taskCheck = document.querySelector('.addTask form #check')
+openFeatures();
 
 
-form.addEventListener('submit',function (e){
-    e.preventDefault()
-    console.log(taskInput.value)
-    console.log(taskDetailsInput.value)
-})
+//todo list
+function todoList(){
+    var currentTask = []
+
+    if(localStorage.getItem('currentTask')){
+        currentTask = JSON.parse(localStorage.getItem('currentTask'))
+    } else {
+        console.log("Task list is empty")
+    }
+
+    function renderTask(){
+        var allTask = document.querySelector('.allTask')
+        var sum=''
+
+        currentTask.forEach(function (e,idx){
+            sum=sum+`<div class="task">
+            <h5>${e.task}<span class=${e.imp}>IMP</span></h5>
+            <button id =${idx} >Mark as Completed</button>
+            </div>`
+        })    
+        allTask.innerHTML=sum
+        localStorage.setItem('currentTask',JSON.stringify(currentTask))
+        document.querySelectorAll('.task button').forEach(function(btn){
+            btn.addEventListener('click',function (){
+                currentTask.splice(btn.id,1)
+                renderTask()
+                Location.reload()
+            })
+        })
+    }
+
+    renderTask()
+
+
+    let form = document.querySelector('.addTask form')
+    let taskInput =document.querySelector('.addTask form input')
+    let taskDetailsInput = document.querySelector('.addTask form textarea')
+    let taskCheckBox = document.querySelector('.addTask form .mark-imp #check')
+
+    form.addEventListener('submit',function (e){
+        e.preventDefault()
+        currentTask.push(
+            {
+                task:taskInput.value,
+                details:taskDetailsInput.value,
+                imp:taskCheckBox.checked
+            }
+        )
+        renderTask()
+        taskCheckBox.checked = false
+        taskInput.value = ''
+        taskDetailsInput.value = ''
+    })
+}
+
+todoList()
