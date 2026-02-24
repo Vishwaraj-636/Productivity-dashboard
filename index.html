@@ -12,24 +12,29 @@
        <!--  <nav></nav> -->
         <section class="allElems">
             <div class="todo elem" id="0">
-                <img src="https://plus.unsplash.com/premium_photo-1739123348022-26d5bd055ccd?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+                <img src="./todo.jpg">
                 <h2>To Do List</h2>
+                <div class="bottom"></div>
             </div>
             <div class="daily elem" id="1">
-                <img src="https://plus.unsplash.com/premium_photo-1691868613750-d43087bdb5a9?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+                <img src="./dailyplanner.jpg">
                 <h2>Daily Planner</h2>
+                <div class="bottom"></div>
             </div>
             <div class="Pomod elem" id="2">
-                <img src="https://images.unsplash.com/photo-1610476840592-0743ba8caec5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHN1bnJpc2UlMjBtb3VudGFpbnxlbnwwfHwwfHx8MA%3D%3D">
+                <img src="./pmo.jpg">
                 <h2>Pomodoro</h2>
+                <div class="bottom"></div>
             </div>
             <div class="motivation elem" id="3">
-                <img src="https://plus.unsplash.com/premium_photo-1673002094058-8598519236db?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+                <img src="./moti.jpg">
                 <h2>Motivation</h2>
+                <div class="bottom"></div>
             </div>
             <div class="goals elem" id="4">
-                <img src="https://plus.unsplash.com/premium_photo-1673603988195-1253725273e8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8c3VucmlzZSUyMG1vdW50YWlufGVufDB8fDB8fHww">
+                <img src="./goals.jpg">
                 <h2>Daily goals</h2>
+                <div class="bottom"></div>
             </div>
         </section>
 
@@ -56,20 +61,47 @@
         <section class="fullElem daily-planner-fullpage">
             <button class="back" id="1">Close</i></button>
             <h2>Plan your Day to be more Productive</h2>
+            <div class="day-planner"></div>
         </section>
         <section class="fullElem pomodoro-fullpage">
             <button class="back" id="2">Close</i></button>
-            <h1>Pomodoro Timer</h1>
+            <h2>Study with me!</h2>
+            <h4 class="session">Work Session</h4>
+            <div class="pomo-timer">
+                <h1>25:00</h1>
+                <div class="timer-btn">
+                    <button class="start-timer">Start</button>
+                    <button class="pause-timer">Pause</button>
+                    <button class="reset-timer">Reset</button>
+                </div>
+            </div>
         </section>
         <section class="fullElem motivation-fullpage">
             <button class="back" id="3">Close</i></button>
-            <h1>Motivational Quotes</h1>
+            <div class="motivation-fullpage-container">
+                <div class="motivation-container">
+                    <div class="motivation-wrapper">
+                        <div class="motivation-1">
+                            <img src="./icons8-quote-100.png">
+                            <h2>Quote of the day</h2>
+                        </div>
+                        <div class="motivation-2">
+                            <h1></h1>
+                        </div>
+                        <div class="motivation-3">
+                            <h2></h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
         </section>
         <section class="fullElem goals-fullpage">
             <button class="back" id="4">Close</i></button>
             <h1>Goals</h1>
         </section>
     </main>
+    
 
     <script src="script.js"></script>
 </body>
