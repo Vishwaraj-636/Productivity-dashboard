@@ -86,6 +86,10 @@ section.allElems{
     position: relative;
 }
 
+.allElems.allFeatures{
+    
+}
+
 .elem{
     background-color: var(--sec);
     height: 400px;
@@ -385,20 +389,8 @@ section.allElems{
     position: absolute;
     border-radius: 50px;
     position: relative;
-   
 }
 
-
-.motivation-fullpage .motivation-container::after{
-    content: '';
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    border-radius: 40px;
-    scale: 1.1;
-    filter: blur(100px);
-    background-color: var(--sec);
-}
 
 .motivation-fullpage .motivation-container .motivation-wrapper{
     z-index: 10;
@@ -515,3 +507,7 @@ section.allElems{
 }
 
 /*----------------------goals----------------------*/
+
+.goals-fullpage{
+    display: block;
+}
