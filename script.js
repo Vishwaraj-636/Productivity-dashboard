@@ -209,80 +209,136 @@ function pomodoroTimer(){
 pomodoroTimer();
 
 //weather
-var apikey = "ebdaee08d4be40d090b165131262702"
-var city = "ajmer"
+async function weatherDashboard(){
+    
+    var apikey = "ebdaee08d4be40d090b165131262702"
+    var query = "ajmer"   // fallback
+
+    var header1time = document.querySelector('.header1 h1')
+    var header1date = document.querySelector('.header1 h2')
+    var header1loc = document.querySelector('.header1 h4')
+    var header2temp = document.querySelector('.header2 h2')
+    var header2condition = document.querySelector('.header2 h4')
+    var precip = document.querySelector('.header2 .precipitation')
+    var humid = document.querySelector('.header2 .humidity')
+    var wind = document.querySelector('.header2 .winds')
+    var header = document.querySelector('.allElems header')
+
+    var locationTime = null
 
 
-var header1time = document.querySelector('.header1 h1')
-var header1date = document.querySelector('.header1 h2')
-var header1loc = document.querySelector('.header1 h4')
-var header2temp = document.querySelector('.header2 h2')
-var header2condition = document.querySelector('.header2 h4')
-var precip = document.querySelector('.header2 .precipitation')
-var humid = document.querySelector('.header2 .humidity')
-var wind = document.querySelector('.header2 .winds')
-var header = document.querySelector('.allElems header')
-
-var locationTime = null
-
-async function weatherApiCall(){
-
-    var response = await fetch(`https://api.weatherapi.com/v1/current.json?key=${apikey}&q=${city}`)
-    var data = await response.json()
-
-    locationTime = data.location.localtime  
-
-    header2temp.innerHTML = `${data.current.temp_c}°C`
-    header2condition.innerHTML = `${data.current.condition.text}`
-    precip.innerHTML = `Precipitation: ${data.current.precip_mm} mm`
-    humid.innerHTML = `Humidity: ${data.current.humidity}%`
-    wind.innerHTML = `Wind: ${data.current.wind_kph} km/h`
-    header1loc.innerHTML = `${data.location.name}, ${data.location.region}`
-}
-
-
-function timeDate(){
-
-    if(!locationTime) return  
-
-    const Weekdays = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
-    const monthsOfYear = ['January','February','March','April','May','June','July',
-                          'August','September','October','November','December']
-
-    var date = new Date(locationTime)
-
-    var dayOfWeek = Weekdays[date.getDay()]
-    var hours = date.getHours()
-    var mins = date.getMinutes()
-    var seconds = date.getSeconds()
-    var month = monthsOfYear[date.getMonth()]
-    var tarik = date.getDate()
-    var year = date.getFullYear()
-
-    header1date.innerHTML = `${tarik} ${month}, ${year}`
-
-    let displayHour = hours % 12 || 12
-    let ampm = hours >= 12 ? "pm" : "am"
-
-    header1time.innerHTML =
-        `${dayOfWeek}, ${String(displayHour).padStart(2,'0')}:${String(mins).padStart(2,'0')}:${String(seconds).padStart(2,'0')} ${ampm}`
-
-
-    if(hours >= 5 && hours < 12){
-        header.style.backgroundImage = 'url("https://images.unsplash.com/photo-1514519273132-6a1abd48302c?q=80&w=1170&auto=format&fit=crop")'
+    // STEP 1 — Get user location
+    function getUserCoords(){
+        return new Promise((resolve, reject)=>{
+            navigator.geolocation.getCurrentPosition(
+                pos => resolve(`${pos.coords.latitude},${pos.coords.longitude}`),
+                () => reject()
+            )
+        })
     }
-    else if(hours >= 12 && hours < 17){
-        header.style.backgroundImage = 'url("https://images.unsplash.com/photo-1609129465734-dd1ea8b46e11?q=80&w=1170&auto=format&fit=crop")'
-    }
-    else if(hours >= 17 && hours < 21){
-        header.style.backgroundImage = 'url("https://images.unsplash.com/photo-1687183277718-52cc79e4102a?q=80&w=1170&auto=format&fit=crop")'
-    }
-    else{
-        header.style.backgroundImage = 'url("https://images.unsplash.com/photo-1531366936337-7c912a4589a7?q=80&w=1170&auto=format&fit=crop")'
-    }
-}
 
 
-weatherApiCall().then(() => {
+    // STEP 2 — Try getting live location
+    try{
+        query = await getUserCoords()
+    }catch{
+        console.log("Location denied — using fallback city")
+    }
+
+
+    // STEP 3 — Fetch weather
+    async function weatherApiCall(){
+
+        var response = await fetch(`https://api.weatherapi.com/v1/current.json?key=${apikey}&q=${query}`)
+        var data = await response.json()
+
+        locationTime = data.location.localtime  
+
+        header2temp.innerHTML = `${data.current.temp_c}°C`
+        header2condition.innerHTML = `${data.current.condition.text}`
+        precip.innerHTML = `Precipitation: ${data.current.precip_mm} mm`
+        humid.innerHTML = `Humidity: ${data.current.humidity}%`
+        wind.innerHTML = `Wind: ${data.current.wind_kph} km/h`
+        header1loc.innerHTML = `${data.location.name}, ${data.location.region}`
+    }
+
+
+    // STEP 4 — Time + Theme
+    function timeDate(){
+
+        if(!locationTime) return  
+
+        const Weekdays = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+        const monthsOfYear = ['January','February','March','April','May','June','July',
+                            'August','September','October','November','December']
+
+        var date = new Date(locationTime)
+
+        var dayOfWeek = Weekdays[date.getDay()]
+        var hours = date.getHours()
+        var mins = date.getMinutes()
+        var seconds = date.getSeconds()
+        var month = monthsOfYear[date.getMonth()]
+        var tarik = date.getDate()
+        var year = date.getFullYear()
+
+        header1date.innerHTML = `${tarik} ${month}, ${year}`
+
+        let displayHour = hours % 12 || 12
+        let ampm = hours >= 12 ? "pm" : "am"
+
+        header1time.innerHTML =
+            `${dayOfWeek}, ${String(displayHour).padStart(2,'0')}:${String(mins).padStart(2,'0')}:${String(seconds).padStart(2,'0')} ${ampm}`
+
+        if(hours >= 5 && hours < 12){
+            header.style.backgroundImage = 'url("https://images.unsplash.com/photo-1514519273132-6a1abd48302c?q=80&w=1170&auto=format&fit=crop")'
+        }
+        else if(hours >= 12 && hours < 17){
+            header.style.backgroundImage = 'url("https://images.unsplash.com/photo-1609129465734-dd1ea8b46e11?q=80&w=1170&auto=format&fit=crop")'
+        }
+        else if(hours >= 17 && hours < 21){
+            header.style.backgroundImage = 'url("https://images.unsplash.com/photo-1687183277718-52cc79e4102a?q=80&w=1170&auto=format&fit=crop")'
+        }
+        else{
+            header.style.backgroundImage = 'url("https://images.unsplash.com/photo-1531366936337-7c912a4589a7?q=80&w=1170&auto=format&fit=crop")'
+        }
+    }
+
+
+    await weatherApiCall()
     setInterval(timeDate, 1000)
-})
+}
+weatherDashboard()
+
+function themeChange(){
+    var theme = document.querySelector('.theme')
+    var rootElem = document.documentElement
+    var flag = 0
+
+    theme.addEventListener('click',function (){
+        if(flag===0){
+            rootElem.style.setProperty('--pri','#F3F4F4')
+            rootElem.style.setProperty('--sec','#5F9598')
+            rootElem.style.setProperty('--ter1','#1D546D')
+            rootElem.style.setProperty('--ter2','#061E29')
+            flag=1
+        }
+        else if(flag===1){
+            rootElem.style.setProperty('--pri','#f5d6b8')
+            rootElem.style.setProperty('--sec','#c26d17')
+            rootElem.style.setProperty('--ter1','#9c5824')
+            rootElem.style.setProperty('--ter2','#54321b')
+            flag=2
+        }
+        else{
+            rootElem.style.setProperty('--pri','#EDEDCE')
+            rootElem.style.setProperty('--sec','#629FAD')
+            rootElem.style.setProperty('--ter1','#296374')
+            rootElem.style.setProperty('--ter2','#0C2C55')
+            flag=0
+        }
+
+        
+    })
+}
+themeChange()
