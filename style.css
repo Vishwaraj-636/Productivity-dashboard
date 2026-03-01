@@ -5,6 +5,13 @@
 * Browsers: last 4 version
 */
 
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v8.4.14,
+* Autoprefixer: v10.4.7
+* Browsers: last 4 version
+*/
+
 :root {
   --pri: #ededce;
   --sec: #629fad;
@@ -49,6 +56,14 @@ html {
   height: 100%;
   scrollbar-width: none;
 }
+html{
+    scroll-behavior: smooth;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
 
 main {
   width: 100%;
@@ -60,10 +75,9 @@ main {
 section.allElems {
   width: 100%;
   padding: 30px;
-
+  padding: clamp(15px, 4vw, 30px);
   scrollbar-width: none;
   min-height: 100vh;
-
   position: relative;
 }
 
@@ -79,6 +93,10 @@ section.allElems {
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
+  display: -ms-grid;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
 }
 .allElems header {
   height: 400px;
@@ -90,7 +108,6 @@ section.allElems {
   -webkit-transition: background-image 0.8s ease-in-out;
   -o-transition: background-image 0.8s ease-in-out;
   transition: background-image 0.8s ease-in-out;
-
   margin-bottom: 50px;
   border-radius: 20px;
   display: -webkit-box;
@@ -103,21 +120,37 @@ section.allElems {
   -ms-flex-pack: justify;
   justify-content: space-between;
   padding: 50px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 20px;
+  height: auto;
+  padding: clamp(20px, 5vw, 50px);
+  background-attachment: scroll;
 }
 
 header .header1 h1 {
-  font-size: 70px;
+  font-size: clamp(28px, 6vw, 70px);
 }
 header .header1 h2 {
   font-size: 50px;
   font-weight: 500;
+  font-size: clamp(18px, 4vw, 50px);
 }
 header .header1 h4 {
   font-size: 45px;
   font-weight: 700;
+  font-size: clamp(16px, 4vw, 45px);
 }
 header .header2 h2 {
-  font-size: 70px;
+  font-size: clamp(30px, 6vw, 70px);
 }
 header .header2 h3 {
   font-weight: 500;
@@ -126,7 +159,7 @@ header .header2 h3 {
 header .header2 h4 {
   font-weight: 500;
   margin-bottom: 40px;
-  font-size: 40px;
+  font-size: clamp(16px, 4vw, 40px);
 }
 
 .elem {
@@ -142,6 +175,8 @@ header .header2 h4 {
   cursor: pointer;
   -webkit-box-shadow: 5px 5px 20px rgba(72, 72, 72, 0.2);
   box-shadow: 5px 5px 20px rgba(72, 72, 72, 0.2);
+  width: 100%;
+  height: 280px;
 }
 .elem .bottom {
   width: 100%;
@@ -149,14 +184,8 @@ header .header2 h4 {
   background-color: white;
   position: absolute;
   bottom: -20%;
-  background: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    from(transparent),
-    to(rgba(61, 61, 61, 0.474))
-  );
   background: -o-linear-gradient(transparent, rgba(61, 61, 61, 0.474));
+  background: -webkit-gradient(linear, left top, left bottom, from(transparent), to(rgba(61, 61, 61, 0.474)));
   background: linear-gradient(transparent, rgba(61, 61, 61, 0.474));
   -webkit-transition: all ease 0.5s;
   -o-transition: all ease 0.5s;
@@ -195,6 +224,8 @@ header .header2 h4 {
   top: 0;
   left: 0;
   z-index: 1000;
+   padding: clamp(15px, 5vw, 40px);
+  overflow-y: auto;
 }
 
 .back {
@@ -231,6 +262,10 @@ header .header2 h4 {
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  gap: 20px;
+  height: auto;
 }
 
 .todo-list-fullpage .todo-container .addTask {
@@ -240,6 +275,7 @@ header .header2 h4 {
   border-radius: 20px;
   overflow: auto;
   scrollbar-width: none;
+   width: 100%;
 }
 
 .todo-list-fullpage .todo-container .addTask form {
@@ -338,8 +374,17 @@ label {
   padding: 30px;
   overflow: auto;
   scrollbar-width: none;
-}
+  width: 100%;
 
+}
+@media(min-width:768px){
+  .todo-list-fullpage .todo-container .addTask{
+    width:35%;
+  }
+  .todo-list-fullpage .todo-container .allTask{
+    width:60%;
+  }
+}
 .task {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -442,8 +487,14 @@ label {
   -ms-flex-align: center;
   align-items: center;
   position: relative;
-  width: 49%;
   margin-bottom: 10px;
+  width: 100%;
+
+}
+@media(min-width:768px){
+  .daily-planner-fullpage .day-planner .day-planner-time {
+    width: 48%;
+  }
 }
 .day-planner .day-planner-time p {
   position: absolute;
@@ -493,6 +544,19 @@ label {
   position: absolute;
   border-radius: 50px;
   position: relative;
+   width: 95%;
+  height: auto;
+}
+@media(min-width:768px){
+  .motivation-fullpage .motivation-container {
+    width: 70%;
+  }
+}
+
+@media(min-width:1200px){
+  .motivation-fullpage .motivation-container {
+    width: 60%;
+  }
 }
 
 .motivation-fullpage .motivation-container .motivation-wrapper {
@@ -595,9 +659,10 @@ label {
   justify-content: center;
 }
 .pomo-timer h1 {
-  font-size: 130px;
   font-weight: 700;
   margin-bottom: 15px;
+  font-size: clamp(50px, 10vw, 130px);
+
 }
 .pomo-timer button {
   background-color: var(--sec);
@@ -639,6 +704,8 @@ label {
   padding: 15px 30px;
   font-size: 25px;
   border-radius: 10px;
+  font-size: clamp(14px, 3vw, 25px);
+  padding: 10px 20px;
 }
 
 /*----------------------goals----------------------*/
@@ -648,13 +715,14 @@ label {
 } */
 
 nav {
-  height: 60px;
   width: 100%;
-  padding: 30px;
-  margin-bottom: 60px;
+  padding: 15px;
+  margin-bottom: 30px;
   position: sticky;
   top: 0;
   z-index: 999;
+  -webkit-backdrop-filter: blur(8px);
+          backdrop-filter: blur(8px);
 }
 
 .nav-in {
@@ -662,14 +730,30 @@ nav {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
   -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   background-color: var(--ter1);
-  padding: 30px;
-  border-radius: 20px;
+  padding: 15px 20px;
+  border-radius: 15px;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  gap: 10px;
+}
+.nav-in h1 {
+  font-size: clamp(18px, 4.5vw, 26px);
+  line-height: 1.2;
+}
+
+.theme {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .theme button {
@@ -682,8 +766,63 @@ nav {
   font-size: 18px;
   background-color: var(--orange);
   cursor: pointer;
+  font-size: clamp(14px, 2.5vw, 18px);
+  padding: 8px 16px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: clamp(13px, 3vw, 16px);
+  background-color: var(--orange);
+  cursor: pointer;
+  white-space: nowrap;
+
 }
 
 .theme button:active {
   scale: 0.95;
+}
+
+@media (max-width: 600px) {
+
+  nav {
+    padding: 10px;
+  }
+
+  .nav-in {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+    padding: 12px;
+  }
+
+  .nav-in h1 {
+    width: 100%;
+  }
+
+  .theme {
+    width: 100%;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+  }
+
+}
+
+@media (min-width: 601px) and (max-width: 1024px){
+
+  .nav-in {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+  }
+
+  .nav-in h1 {
+    font-size: 22px;
+  }
+
 }
