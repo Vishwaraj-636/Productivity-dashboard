@@ -1,33 +1,32 @@
-
 :root{
-    --pri:#e9e3a5;
-    --sec:#006A67;
-    --ter1:#003161;
-    --ter2:#000000;
+    --pri:#EDEDCE;
+    --sec:#629FAD;
+    --ter1:#296374;
+    --ter2:#0C2C55;
     --red:rgba(241, 29, 29, 0.882);
     --green:green;
     --orange:rgb(255, 98, 0);
-    --seagrenn:rgb(2, 141, 74);
+    --seagreen:rgb(2, 141, 74);
 }
 /* :root{
-    --pri:#F4CCE9;
-    --sec:#D17D98;
-    --ter1:#7D1C4A;
-    --ter2:#56021F;
+    --pri:#F3F4F4;
+    --sec:#5F9598;
+    --ter1:#1D546D;
+    --ter2:#061E29;
     --red:rgba(241, 29, 29, 0.882);
     --green:green;
     --orange:rgb(255, 98, 0);
     --seagrenn:rgb(2, 141, 74);
-    } */
-/*:root{
-    --pri:#bdf9e9;
-    --orange:rgb(255, 98, 0);
-    --seagrenn:rgb(2, 141, 74);
-    --sec:#1DCD9F;
-    --ter1:#222222;
-    --ter2:#000000;
+} */
+/* :root{
+    --pri:#f5d6b8;
+    --sec:#c26d17;
+    --ter1:#9c5824;
+    --ter2:#54321b;
     --red:rgba(241, 29, 29, 0.882);
     --green:green;
+    --orange:rgb(255, 98, 0);
+    --seagrenn:rgb(2, 141, 74);
 } */
 
 @font-face {
@@ -67,34 +66,69 @@ main{
     background-color: var(--ter2);
 }
 
-nav{
-    position: fixed;
-    width: 100%;
-    height: 60px;
-    background-color: var(--ter1);
-}
 
 section.allElems{
     width: 100%;
     height: 100%;
-    padding: 40px;
-    padding-top: 80px;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    gap: 40px;
+    padding:30px;
+    
+    scrollbar-width: none;
+    overflow: auto;
     position: relative;
 }
 
-.allElems.allFeatures{
+.allElems .allFeatures{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+.allElems header {
+    height: 400px;
+    width: 100%;
+    background-position: center bottom;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    transition: background-image 0.8s ease-in-out;
+
+    margin-bottom: 50px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 50px;
+}
+
+header .header1 h1{
+    font-size: 70px;
     
+}
+header .header1 h2{
+    font-size: 50px;
+    font-weight: 500;
+}
+header .header1 h4{
+    font-size: 45px;
+    font-weight: 700;
+}
+header .header2 h2{
+    font-size: 60px;
+}
+header .header2 h3{
+    font-weight: 500;
+    font-size: 30px;
+}
+header .header2 h4{
+    margin-bottom: 30px;
+    font-size: 35px;
 }
 
 .elem{
     background-color: var(--sec);
     height: 400px;
     width: 250px;
-    border-radius: 10px;
+    border-radius: 20px;
     overflow: hidden;
     position: relative;
     transition: all 0.2s ease;
@@ -508,6 +542,6 @@ section.allElems{
 
 /*----------------------goals----------------------*/
 
-.goals-fullpage{
+/* .goals-fullpage{
     display: block;
-}
+} */

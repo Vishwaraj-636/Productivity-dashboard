@@ -127,79 +127,162 @@ function motivationQuotes(){
 motivationQuotes()
 
 //pomodoro
-
 function pomodoroTimer(){
-    
+
     let timerInterval = null;
-    let totalSecond = 5
-    var isWorkSession = true
-    let timer = document.querySelector('.pomo-timer h1')
-    let start = document.querySelector('.pomo-timer .start-timer')
-    let pause = document.querySelector('.pomo-timer .pause-timer')
-    let reset = document.querySelector('.pomo-timer .reset-timer')
-    let session = document.querySelector('.session')
+    let totalSecond = 25 * 60;
+    let isWorkSession = true;
+
+    const timer = document.querySelector('.pomo-timer h1');
+    const start = document.querySelector('.pomo-timer .start-timer');
+    const pause = document.querySelector('.pomo-timer .pause-timer');
+    const reset = document.querySelector('.pomo-timer .reset-timer');
+    const session = document.querySelector('.session');
 
     function updateTimer(){
-        let min = Math.floor(totalSecond/60)
-        let sec = totalSecond%60
-        timer.innerHTML = `${String(min).padStart(2,'0')}:${String(sec).padStart(2,'0')}`
+        let min = Math.floor(totalSecond / 60);
+        let sec = totalSecond % 60;
+        timer.innerHTML = `${String(min).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
     }
 
     function startTimer(){
-        clearInterval(timerInterval)
 
-        if(isWorkSession){
-            totalSecond = 25*60
-            timerInterval = setInterval(() => {
-                if(totalSecond>0){
-                    totalSecond--
-                    updateTimer()
-                }
-                else{
-                    //Have a KitKat wala kuch additional feature dal sakta hai sort of 5 min game or just looping animation
-                    session.innerHTML = 'Take a Break'
-                    session.style.backgroundColor = 'var(--seagrenn)'
-                    totalSecond = 5*60
-                    isWorkSession = false
-                    clearInterval(timerInterval)
-                    timer.innerHTML = '05:00'
-                }
-            }, 1000)
-        }
-        else{
-            totalSecond= 5*60
-            timerInterval = setInterval(() => {
-                if(totalSecond>0){
-                    totalSecond--
-                    updateTimer()
-                }
-                else{
-                    session.innerHTML = 'Work Session'
-                    session.style.backgroundColor = 'var(--orange)'
-                    isWorkSession = true
-                    clearInterval(timerInterval)
-                    timer.innerHTML = '25:00'
-                }
-            }, 1000)
-            
-        }
+        if(timerInterval) return; 
 
-    
+        timerInterval = setInterval(() => {
+
+            if(totalSecond > 0){
+                totalSecond--;
+                updateTimer();
+            }
+            else{
+                clearInterval(timerInterval);
+                timerInterval = null;
+                switchSession();
+            }
+
+        }, 1000);
     }
 
     function pauseTimer(){
-        clearInterval(timerInterval)
+        clearInterval(timerInterval);
+        timerInterval = null;
     }
 
     function resetTimer(){
-        totalSecond = 25*60
-        clearInterval(timerInterval)
-        updateTimer()
+        clearInterval(timerInterval);
+        timerInterval = null;
+
+        isWorkSession = true;
+        totalSecond = 25 * 60;
+
+        session.innerHTML = 'Work Session';
+        session.style.backgroundColor = 'var(--orange)';
+
+        updateTimer();
     }
 
-    start.addEventListener('click',startTimer)
-    pause.addEventListener('click',pauseTimer)
-    reset.addEventListener('click',resetTimer)
+    function switchSession(){
 
+        if(isWorkSession){
+            session.innerHTML = 'Take a Break';
+            session.style.backgroundColor = 'var(--seagreen)';
+            totalSecond = 5 * 60;
+        }
+        else{
+            session.innerHTML = 'Work Session';
+            session.style.backgroundColor = 'var(--orange)';
+            totalSecond = 25 * 60;
+        }
+
+        isWorkSession = !isWorkSession;
+        updateTimer();
+        startTimer(); 
+    }
+
+    updateTimer();
+
+    start.addEventListener('click', startTimer);
+    pause.addEventListener('click', pauseTimer);
+    reset.addEventListener('click', resetTimer);
 }
-pomodoroTimer()
+pomodoroTimer();
+
+//weather
+var apikey = "ebdaee08d4be40d090b165131262702"
+var city = "ajmer"
+
+
+var header1time = document.querySelector('.header1 h1')
+var header1date = document.querySelector('.header1 h2')
+var header1loc = document.querySelector('.header1 h4')
+var header2temp = document.querySelector('.header2 h2')
+var header2condition = document.querySelector('.header2 h4')
+var precip = document.querySelector('.header2 .precipitation')
+var humid = document.querySelector('.header2 .humidity')
+var wind = document.querySelector('.header2 .winds')
+var header = document.querySelector('.allElems header')
+
+var locationTime = null
+
+async function weatherApiCall(){
+
+    var response = await fetch(`https://api.weatherapi.com/v1/current.json?key=${apikey}&q=${city}`)
+    var data = await response.json()
+
+    locationTime = data.location.localtime  
+
+    header2temp.innerHTML = `${data.current.temp_c}°C`
+    header2condition.innerHTML = `${data.current.condition.text}`
+    precip.innerHTML = `Precipitation: ${data.current.precip_mm} mm`
+    humid.innerHTML = `Humidity: ${data.current.humidity}%`
+    wind.innerHTML = `Wind: ${data.current.wind_kph} km/h`
+    header1loc.innerHTML = `${data.location.name}, ${data.location.region}`
+}
+
+
+function timeDate(){
+
+    if(!locationTime) return  
+
+    const Weekdays = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+    const monthsOfYear = ['January','February','March','April','May','June','July',
+                          'August','September','October','November','December']
+
+    var date = new Date(locationTime)
+
+    var dayOfWeek = Weekdays[date.getDay()]
+    var hours = date.getHours()
+    var mins = date.getMinutes()
+    var seconds = date.getSeconds()
+    var month = monthsOfYear[date.getMonth()]
+    var tarik = date.getDate()
+    var year = date.getFullYear()
+
+    header1date.innerHTML = `${tarik} ${month}, ${year}`
+
+    let displayHour = hours % 12 || 12
+    let ampm = hours >= 12 ? "pm" : "am"
+
+    header1time.innerHTML =
+        `${dayOfWeek}, ${String(displayHour).padStart(2,'0')}:${String(mins).padStart(2,'0')}:${String(seconds).padStart(2,'0')} ${ampm}`
+
+
+    if(hours >= 5 && hours < 12){
+        header.style.backgroundImage = 'url("https://images.unsplash.com/photo-1514519273132-6a1abd48302c?q=80&w=1170&auto=format&fit=crop")'
+    }
+    else if(hours >= 12 && hours < 17){
+        header.style.backgroundImage = 'url("https://images.unsplash.com/photo-1609129465734-dd1ea8b46e11?q=80&w=1170&auto=format&fit=crop")'
+    }
+    else if(hours >= 17 && hours < 21){
+        header.style.backgroundImage = 'url("https://images.unsplash.com/photo-1687183277718-52cc79e4102a?q=80&w=1170&auto=format&fit=crop")'
+    }
+    else{
+        header.style.backgroundImage = 'url("https://images.unsplash.com/photo-1531366936337-7c912a4589a7?q=80&w=1170&auto=format&fit=crop")'
+    }
+}
+
+
+weatherApiCall().then(() => {
+    setInterval(timeDate, 1000)
+})
